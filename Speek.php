@@ -18,7 +18,7 @@
 		define('_P_',dirname($_SERVER['SCRIPT_NAME']).'/Public');
 	}
 	//defined('_P_') or define('_P_',dirname($_SERVER['SCRIPT_NAME']).'Public');
-	defined('URL') or define('URL',$urltype.$_SERVER['SERVER_NAME'].':8888'.$_SERVER['SCRIPT_NAME']);
+	defined('URL') or define('URL',$urltype.$_SERVER['SERVER_NAME'].':6061'.$_SERVER['SCRIPT_NAME']);
 	defined('FILE') or define('FILE',dirname(__FILE__));
 	defined('EXT') or define('EXT','.php');
 	defined('CEXT') or define('CEXT','.class.php');
