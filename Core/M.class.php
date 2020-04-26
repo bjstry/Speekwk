@@ -3,6 +3,7 @@
  * 模块基类
  */
 class M{
+	protected $PDO;
 	protected $table = null;    //存储表名
 	protected $where = null;    //存储定义条件
 	protected $limit = null;    //存储定义条件
@@ -18,17 +19,14 @@ class M{
 			//print_r($a);
 			//-----使用数组自定义连接数据库
 			$this->table = !empty($a['table'])?C('DB_PREFIX').strtolower($a['table']):'';
-			mysql_connect($a['host'],$a['user'],$a['pass']) or die('连接数据库失败！ - '.mysql_error());
-			if(isset($a['dbname'])){
-				mysql_select_db($a['dbname']) or exit('没有数据库: '.$a['dbname']);
-			}
+			$this->connect($a['host'],$a['dbname'],$a['user'],$a['pass']);
 		}else{
 			//-----调用配置文件连接数据库
 			$this->table = C('DB_PREFIX').strtolower($a);
-			$this->connect();
-			mysql_select_db(C('DB_NAME')) or die('选择数据库失败！ - '.mysql_error());
+			$this->connect(C('DB_HOST'),C('DB_NAME'),C('DB_USER'),C('DB_PASS'));
+			#mysql_select_db(C('DB_NAME')) or die('选择数据库失败！ - '.mysql_error());
 			$redatare = $this->query("desc ".$this->table);
-			while($redata = mysql_fetch_array($redatare)){
+			while($redata = $redatare->fetch()){
 				$this->_data['field'][] = $redata['Field'];
 				$this->_data['type'][] = $redata['Type'];
 				$this->_data['extra'][] = $redata['Extra'];
@@ -42,20 +40,25 @@ class M{
 	}
 	//---代替自带mysql_query---//
 	public function query($sql){
-		return mysql_query($sql);
+		return $this->PDO->query($sql);
 	}
 	//---获取主键---//
 	protected function getId(){
 		$query = $this->query("desc $this->table");
-		while($row = mysql_fetch_assoc($query)){
+		while($row = $query->fetchAll()){
 			if($row['Key']=='PRI'){
 				$this->primary = $row['Field'];
 			}
 		}
 	}
 	//---调用配置文件连接数据库---//
-	protected function connect(){
-		mysql_connect(C('DB_HOST'),C('DB_USER'),C('DB_PASS')) or die('连接数据库失败！ - '.mysql_error());
+	protected function connect($servername,$dbname,$username,$password){
+		try {
+			$this->PDO = new PDO("mysql:host=$servername;dbname=$dbname;port=3306", $username, $password);
+		}catch(PDOException $e){
+			echo $e->getMessage();
+		}
+		#mysql_connect(C('DB_HOST'),C('DB_USER'),C('DB_PASS')) or die('连接数据库失败！ - '.mysql_error());
 		$this->query('set names '.C('DT_CHARSET'));
 	}
 
@@ -119,9 +122,9 @@ class M{
 		$sqltrl = 'select'.$a.'from '.$this->table.$sql.' limit 1';
 		$query = $this->query($sqltrl);
 		if(empty($query)){
-			die('Find error - '.mysql_error().'<br>SQL : '.$sqltrl);
+			die('Find error - '.mysqli_error().'<br>SQL : '.$sqltrl);
 		}else{
-			$row = $this->fetch($query);
+			$row = $query->fetch();
 		}
 		//if(empty($row))
 			//echo '<br>SQL : '.$sqltrl;
@@ -152,7 +155,7 @@ class M{
 			$sql.=$this->order;
 		$sql = 'select'.$b.'from '.$this->table.$sql.$num;
 		$query = $this->query($sql) or die('Select error - '.mysql_error().'<br>SQL : '.$sql);
-		while($srow = $this->fetch($query)){
+		while($srow = $query->fetch()){
 			$row[]=$srow;
 		}
 		return $row; //返回查询结果二维数组
@@ -167,7 +170,7 @@ class M{
 		}
 		$this->verify();
 		$query = $this->query($sql) or die('Insert error - '.mysql_error().'<br>SQL : '.$sql);
-		return mysql_insert_id();
+		return $query->lastInsertId();
 	}
 	//---更新函数---//
 	public function update($a=null){
@@ -183,10 +186,6 @@ class M{
 		$query = $this->query($sql) or die('Delete error - '.mysql_error().'<br>SQL : '.$sql);
 		return $query;
 	}
-	public function fetch($a){
-		return mysql_fetch_array($a);
-	}
-	
 	//---自动验证函数---//
 	protected function verify(){
 		foreach($this->_verarr as $arr){
@@ -209,7 +208,7 @@ class M{
 			$this->where = " where ".$where;
 		}
 		$row = null;
-		$row = $this->fetch($this->query("select count(*) from $this->table".$this->where));
+		$row = $this->query("select count(*) from $this->table".$this->where)->fetch();
 		return $row[0];
 	}
 	//---SESSION会话验证---//
