@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="css/master.css" media="screen" title="no title" charset="utf-8">
+    <meta charset="utf-8">
+    <title>Speek框架文档</title>
+  </head>
+  <body>
+    <header>
+      <h1>一个快速，轻量级的php开发框架</h1>
+    </header>
+    <div id="container">
+      <div id="navlist">
+        <ul>
+          <li><a href="#description">简介</a></li>
+          <li><a href="#diretory">目录结构</a></li>
+          <li><a href="#quickstart">快速部署</a></li>
+          <li><a href="#control">控制器</a></li>
+          <li><a href="#module">模块</a></li>
+          <li><a href="#view">视图</a></li>
+          <li><a href="#const">常量</a></li>
+          <li><a href="#other">附录</a></li>
+        </ul>
+      </div>
+      <div id="content">
+        <div id="description">
+          <p>
+            Speek是一个基于mvc架构的php开发框架，体积小，速度快，内置smarty模版引擎，简单
+            易用，上手快，目前处于开发阶段，拥有无限的可能。
+          </p>
+        </div>
+        <div id="diretory">
+          Speek基于典型MVC框架目录结构，
+        </div>
+        <div id="quickstart">
+          <p>
+            1 创建index.php入口文件<br>
+            2 定义项目名称，引入核心文件<br>
+            &nbsp;&nbsp;define('PRJ','Home');<br>
+            &nbsp;&nbsp;require './Speek/Speek.php';<br>
+            3 在控制器目录创建控制器类：IndexC.class.php,并定义首页模块
+          </p>
+        </div>
+        <div id="const">
+          <table>
+            <th>Speek常量列表</th>
+            <tr><td>SYS</td><td>系统目录</td><td>PRJ</td><td>项目目录</td></tr>
+            <tr><td>ROOT</td><td>入口文件所在目录</td><td>_P_</td><td>公共存储目录，存放css js等</td></tr>
+            <tr><td>URL</td><td>网络访问路径</td><td>FILE</td><td>文件所在目录</td></tr>
+            <tr><td>EXT</td><td>扩展文件后缀</td><td>CEXT</td><td>类文件后缀</td></tr>
+            <tr><td>SYS_CORE</td><td>系统核心目录</td><td>SYS_CONF</td><td>系统配置文件目录</td></tr>
+            <tr><td>SYS_LIB</td><td>系统引入库目录</td><td>SYS_LOG</td><td>系统日志目录</td></tr>
+            <tr><td>SYS_VERSION</td><td>系统版本号</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <footer id="footer">
+      <h4>Speek 开发框架文档中心</h4>
+    </footer>
+  </body>
+</html>

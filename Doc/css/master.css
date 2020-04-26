@@ -1,0 +1,31 @@
+body{
+  position: relative;
+}
+#navlist,#content{
+  vertical-align: top;
+  display:inline-block;
+}
+#content{
+  position: relative;
+  margin-left: 10px;
+}
+li{
+  list-style: none;
+}
+header{
+  text-align: center;
+}
+#footer{
+//  position: fixed;
+  text-align: center;
+  height: 30px;
+}
+td{
+  padding:3px 5px;
+  border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
+}
+table{
+  border-collapse:collapse;
+  border:none;
+}

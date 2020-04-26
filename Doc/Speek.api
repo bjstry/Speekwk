@@ -1,0 +1,43 @@
+快速开始
+入口文件定义
+<?php
+	define('PRJ','Home');
+	require './Speek/Speek.php';
+?>
+项目目录结构
+
+项目配置		RPJ/Conf
+项目全局函数库	PRJ/Com
+项目日志		PRJ/Log
+控制器			PRJ/C
+模块			PRJ/M
+模板			PRJ/T
+Runtime File	PRJ/T_c
+模板缓存		PRJ/T_cache
+
+一 控制器 PRJ/C
+二 模块
+三 视图
+
+二 模块
+init([args]);
+初始化函数，连接数据库，参数为库名或者完整连接数据库信息。
+ examples:
+ $model->init('user'); 
+ //根据配置文件连接数据库，库名为前缀加user
+ examples:
+ $model->init(array('host'=>'localhost','user'=>'user','pass'='',‘dbname’=>'dbname','table'=>'table'));
+ //根据数组连接数据库，主机localhost,用户名user,密码空,使用dbname库操作table表
+
+orderType(1);
+设置排序类型，1为asc倒序排列，默认为null,desc主键从大到小顺序排列
+query();
+函数，等于mysql_query();
+
+ 分页
+ page($count,$nums,$key,$val,$url)
+  $count 数据总条数，为空则自动统计
+  $nums 单页条数，默认为10
+  $key 分页GET变量名，默认pid
+  $val 分页GET值，默认自动获取
+  $url 分页地址，默认自动获取
