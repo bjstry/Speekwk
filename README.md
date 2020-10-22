@@ -12,3 +12,8 @@ require './Speek/Speek.php'; <br><br><br>
  Author Jinsong <br>
  Version V1.271 <br>
  Update 2015-06-17 
+
+
+php7  version <br>
+Author Jinsong <br>
+Update 2020-10-22 <br>
