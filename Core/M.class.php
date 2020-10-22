@@ -40,6 +40,7 @@ class M{
 	}
 	//---代替自带mysql_query---//
 	public function query($sql){
+		//echo $sql."<br>";
 		return $this->PDO->query($sql);
 	}
 	//---获取主键---//
@@ -168,7 +169,6 @@ class M{
 		}else{
 			$sql = "insert into `$this->table` ($a) values ($b)";
 		}
-		$this->verify();
 		$query = $this->query($sql) or die('Insert error - '.mysql_error().'<br>SQL : '.$sql);
 		return $query->lastInsertId();
 	}
@@ -188,8 +188,9 @@ class M{
 	}
 	//---自动验证函数---//
 	protected function verify(){
-		foreach($this->_verarr as $arr){
-			switch($arr[1]){
+		if(!empty($this->_verarr)){
+			foreach($this->_verarr as $arr){
+				switch($arr[1]){
 				case 1:
 					if($_POST[$arr[0]] == null){
 						die($arr[2]);
@@ -199,6 +200,7 @@ class M{
 					if($_POST[$arr[0]] < 0){
 						die($arr[2]);
 					}
+				}
 			}
 		}
 	}
@@ -296,6 +298,7 @@ class M{
 			$count = $this->count();
 
 		}
+		//p
 		//单页条数为空则调用配置文件 默认为15 
 		if($nums==null){
 			$nums=C('PAGE_NUM');
